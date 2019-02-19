@@ -1,8 +1,10 @@
 DEFAULT_CLIENT_OPTIONS = {
-    :zookeeper_connect => '127.0.0.1:2181',
+    :bootstrap_servers => '127.0.0.1:9092',
+    :key_deserializer => 'org.apache.kafka.common.serialization.StringDeserializer',
+    :value_deserializer => 'org.apache.kafka.common.serialization.StringDeserializer',
     :group_id => 'test',
     :topic => 'test',
-    :auto_offset_reset => 'smallest'
+    :auto_offset_reset => 'earliest'
 }
 
 def consumer_options(opt_override = nil)
@@ -23,8 +25,11 @@ end
 def consumer_test_blk(stream, queue)
   it = stream.iterator
   begin
-    queue << it.next.message.to_s while it.hasNext
+    while it.hasNext do
+      queue << it.next.value.to_s
+    end
   rescue Exception => e
+    pp e
     sleep 1
     retry
   end

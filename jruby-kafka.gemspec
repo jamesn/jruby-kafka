@@ -25,13 +25,13 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test}/*`.split("\n")
 
   # Jar dependencies
-  s.requirements << "jar 'org.apache.kafka:kafka_2.11', '0.10.0.1'"
+  s.requirements << "jar 'org.apache.kafka:kafka_2.11', '2.1.1'"
   s.requirements << "jar 'org.slf4j:slf4j-log4j12', '1.7.13'"
 
   s.add_runtime_dependency 'concurrent-ruby', '< 2.0'
 
-  s.add_development_dependency 'jar-dependencies', '~> 0.3.2'
+  s.add_development_dependency 'jar-dependencies', '~> 0.4.0'
   s.add_development_dependency 'rake', '~> 10.5'
   s.add_development_dependency 'rspec', '~> 3.4'
-  s.add_development_dependency 'ruby-maven', '~> 3.3'
+  s.add_development_dependency 'ruby-maven', '~> 3.3.11'
 end

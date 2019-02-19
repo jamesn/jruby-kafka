@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'jruby-kafka'
+require 'timeout'
 require 'util/producer'
 
 class TestKafkaConsumer < Test::Unit::TestCase
@@ -14,12 +15,12 @@ class TestKafkaConsumer < Test::Unit::TestCase
         :topics => topics
     }
     send_test_messages topics[0]
-    queue = SizedQueue.new(20)
+    queue = Queue.new()
     consumer = Kafka::KafkaConsumer.new(options)
     consumer.subscribe topics
     runner_thread = Thread.new { kafka_consumer_test_blk consumer, queue}
     begin
-      timeout(30) do
+      Timeout.timeout(30) do
         until queue.length > 3 do
           sleep 1
           next
